@@ -13,7 +13,7 @@ const newsletterRoute = require('./routes/newsletterRoute');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const cors = require('cors');
-
+const path = require('path')
 
 
 
@@ -26,6 +26,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 // middlewares
+app.use('/api-docs', express.static(path.join(__dirname, '..', 'api.rest')))
 app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
