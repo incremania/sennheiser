@@ -22,7 +22,7 @@ const createBlog = asyncWrapper(async(req, res) => {
 
 const getSingleBlog = asyncWrapper(async(req, res) => {
     const { blogId } = req.params
-    if(!blogId || blogId !== 24) {
+    if(!blogId || blogId.length !== 24) {
         return res.status(400).json({ error: 'please provide a valid blog id'})
   
     }

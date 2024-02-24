@@ -1,0 +1,123 @@
+@server = http://127.0.0.1:6080
+
+# @server = https://karma-p9gk.onrender.com
+
+@api = {{server}}/api
+
+
+### Register
+POST {{api}}/register
+Content-Type: application/json
+
+
+{
+    "email":"wearlifestyle@gmail.com",
+    "password": "#Stylelife1"
+}
+
+result:::::
+
+{
+    "user": {
+        "email": "wearlifestyle@gmail.com",
+        "role": "admin",
+        "userId": "65da663c44ce76e2ade02976"
+    }
+}
+
+
+
+### Login
+POST {{api}}/login
+Content-Type: application/json
+
+{
+    "email":"wearlifestyle@gmail.com",
+    "password": "#Stylelife1"
+}
+
+
+result for login::::::
+
+{
+    "user": {
+        "_id": "65da663c44ce76e2ade02976",
+        "email": "wearlifestyle@gmail.com",
+        "role": "admin",
+        "createdAt": "2024-02-24T21:57:16.363Z",
+        "updatedAt": "2024-02-24T21:57:16.363Z",
+        "__v": 0
+    }
+}
+
+
+::::::::blog part
+
+POST {{api}}/blog
+Content-Type: application/json
+
+{
+   "title": "string",
+   "post": "string",
+   "image": {
+    "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+    "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+}
+}
+
+result:::  
+{
+    "blog": {
+        "title": "string",
+        "post": "string",
+        "image": {
+            "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+            "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+        },
+        "_id": "65da672644ce76e2ade02979",
+        "createdAt": "2024-02-24T22:01:10.013Z",
+        "updatedAt": "2024-02-24T22:01:10.013Z",
+        "__v": 0
+    }
+}
+
+
+GET {{api}}/blog/all
+Content-Type: application/json
+
+
+{
+    "nbHits": 2,
+    "blogs": [
+        {
+            "image": {
+                "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+                "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+            },
+            "_id": "65da632b63cd0110206b8fb6",
+            "title": "string",
+            "post": "string",
+            "createdAt": "2024-02-24T21:44:11.925Z",
+            "updatedAt": "2024-02-24T21:44:11.925Z",
+            "__v": 0
+        },
+        {
+            "image": {
+                "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+                "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+            },
+            "_id": "65da672644ce76e2ade02979",
+            "title": "string",
+            "post": "string",
+            "createdAt": "2024-02-24T22:01:10.013Z",
+            "updatedAt": "2024-02-24T22:01:10.013Z",
+            "__v": 0
+        }
+    ]
+}
+
+
+
+GET {{api}}/blog/{id}
+Content-Type: application/json
+
