@@ -9,8 +9,15 @@ const BlogSchema = new Schema({
         type: String,
         required: [true, 'please make your post']
     },
-    images: {
-        type: [String]
+    image: {
+        src: {
+            type: String,
+            required: [true, 'Image source is required']
+        },
+        publicId: {
+            type: String,
+            required: [true, 'Image public ID is required']
+        }
     }
 },
 {timestamps: true}

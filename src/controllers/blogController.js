@@ -11,8 +11,9 @@ const createBlog = asyncWrapper(async(req, res) => {
     res.status(201).json({ blog })
 })
 
-const getAllBlog = asyncWrapper(async(req, res) => {
+    const getAllBlog = asyncWrapper(async(req, res) => {
     const blogs = await Blog.find({})
+
     if(!blogs){
       return  res.status(404).json({ msg: 'no blogs available yet'})
     }
@@ -21,6 +22,10 @@ const getAllBlog = asyncWrapper(async(req, res) => {
 
 const getSingleBlog = asyncWrapper(async(req, res) => {
     const { blogId } = req.params
+    if(!blogId || blogId !== 24) {
+        return res.status(400).json({ error: 'please provide a valid blog id'})
+  
+    }
     const blog = await Blog.findOne({_id: blogId});
     if(!blog) {
        return res.status(404).json({ error: 'no blog found'})
@@ -33,6 +38,11 @@ const updateBlog = asyncWrapper(async(req, res) => {
     const blog = await Blog.findByIdAndUpdate(blogId, req.body, {
         new: true, runValidators: true
     })
+
+    if(!blog) {
+        return res.status(404).json({ error: 'no blog found'})
+  
+    }
     res.status(200).json({ blog })
 })
 

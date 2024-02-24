@@ -1,32 +1,81 @@
 const cloudinary = require('cloudinary').v2;
-const asyncWrapper = require('../middlewares/asyncWrapper');
+const Blog = require('../models/BlogModel')
+const fs = require('fs');
 
-const uploadImages = asyncWrapper(async (req, res) => {
-    if(!req.files) {
-      return res.status(400).json({error: "please upload atleast an image"})
-    } 
-    let productImages = req.files.images; // Assuming you use 'images' as the field name for multiple images
-  
-    if (!Array.isArray(productImages)) {
-      productImages = [productImages];
+const uploadBlogImage = async (req, res) => {
+  try {
+    if (!req.files || !req.files.image) {
+      return res.status(400).json({ error: "Please upload an image" });
     }
-  
-    const uploadPromises = productImages.map(async (image) => {
-     try {
-      const result = await cloudinary.uploader.upload(image.tempFilePath, {
-        use_filename: true,
-        folder: 'blog images',
-      });
-      return { src: result.secure_url };
-     } catch (error) {
-      return { error: `Error uploading image: ${error.message}` };
-     }
+
+    const image = req.files.image;
+
+    const result = await cloudinary.uploader.upload(image.tempFilePath, {
+      use_filename: true,
+      folder: 'blog_images',
     });
+
+    fs.unlinkSync(image.tempFilePath)
+    
+    res.status(200).json({ image: result.secure_url, publicId: result.public_id  });
+  } catch (error) {
+    res.status(500).json({ error: `Error uploading image: ${error.message}` });
+  }
+};
+
+
+const updateBlogImage = async (req, res) => {
+  try {
+    const { blogId } = req.params;
+
+    if (!req.files || !req.files.image) {
+      return res.status(400).json({ error: "Please upload an image" });
+    }
+
+    const image = req.files.image;
+
+    const result = await cloudinary.uploader.upload(image.tempFilePath, {
+      use_filename: true,
+      folder: 'blog_images',
+    });
+
+    fs.unlinkSync(image.tempFilePath)
+    const updatedBlog = await Blog.findByIdAndUpdate(blogId, { image: result.secure_url }, { new: true });
+
+    res.status(200).json({ message: "blog image updated successfully", blog: updatedBlog });
+  } catch (error) {
+   
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteBlogImage = async (req, res) => {
+  try {
+    // Receive blog ID and image public ID from request parameters
+    const { blogId, publicId } = req.params;
+
+    // Delete the image from Cloudinary using its public ID
+     await cloudinary.uploader.destroy(publicId);
+ 
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    blog.images = blog.images.filter(image => image.publicId !== publicId);
+    await blog.save();
+
+    res.status(200).json({ message: 'Blog image deleted successfully', blog });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+module.exports = {
+  uploadBlogImage,
+  updateBlogImage,
+  deleteBlogImage
+}
   
-  
-    const uploadedImages = await Promise.all(uploadPromises);
-  
-    res.status(200).json({ images: uploadedImages });
-  });
-module.exports = 
-    uploadImages

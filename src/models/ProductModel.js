@@ -10,14 +10,17 @@ const productSchema = new Schema({
         type: String,
         required: [true, 'product description/details is required']
     },
-    rating: {
-        type: Number,
-        default: 1
-    },
-    images: { 
-        type: [String], 
-        required: [true, 'product image is required']
-    },
+    images:  [{
+            publicId: {
+                type: String,
+                required: true
+            },
+            src: {
+                type: String,
+                required: true
+            }
+            
+        }],
     price: {
         type: Number,
         required: [true, 'product price is required'],
@@ -27,11 +30,26 @@ const productSchema = new Schema({
         type: Number,
         required: [true, 'provide number of quantity available'],
         default: 1
+    },
+    categories: {
+        type: String,
+        enum: {
+            values: ['corporate wear', 'text-based tees', 
+        'casual attire', 'innerwear essentials', 'polo shirts'
+        ],
+        message: '{VALUE} is not supported'
+    },
+    default: 'corporate wear'
+},
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-}, 
-{
-    timestamps: true
-})
+
+},
+{timestamps: true}
+)
 
 const product = mongoose.model('Product', productSchema);
 

@@ -4,15 +4,23 @@ const asyncWrapper = require('../middlewares/asyncWrapper');
 
 // create product controller;
 
+const deleteAll = async(req, res) => {
+    await Product.deleteMany({})
+    res.status(200).json( 'deleted')
+}
+
 const createProduct = asyncWrapper(async(req, res) => {
-    const { name, price, quantity, image, description} = req.body
+    const {categories, name, price, quantity, images, description} = req.body
     const product = await Product.create({
         name,
         price,
         quantity,
-        image,
-        description
+        images,
+        description,
+        categories,
+        createdBy: req.user.userId
     })
+    
     res.status(201).json({ product})
 })
 
@@ -66,5 +74,6 @@ module.exports = {
     getAllProduct,
     getSingleProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    deleteAll
 }
