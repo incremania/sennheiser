@@ -117,7 +117,107 @@ Content-Type: application/json
 }
 
 
-
-GET {{api}}/blog/{id}
+###GET single blog
+GET {{api}}/blog/65da632b63cd0110206b8fb6
 Content-Type: application/json
+
+{
+    "blog": {
+        "image": {
+            "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+            "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+        },
+        "_id": "65da632b63cd0110206b8fb6",
+        "title": "string",
+        "post": "string",
+        "createdAt": "2024-02-24T21:44:11.925Z",
+        "updatedAt": "2024-02-24T21:44:11.925Z",
+        "__v": 0
+    }
+}
+
+
+### update single blog
+PATCH {{api}}/blog/65da632b63cd0110206b8fb6
+Content-Type: application/json
+
+
+ {
+        "image": {
+            "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+            "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+        },
+        
+        "title": "edited string",
+        "post": "edited string"
+    
+    }
+
+### result
+
+{
+    "blog": {
+        "image": {
+            "src": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708807810/blog_images/tmp-5-1708807802958_inr4od.jpg",
+            "publicId": "blog_images/tmp-5-1708807802958_inr4od"
+        },
+        "_id": "65da632b63cd0110206b8fb6",
+        "title": "edited string",
+        "post": "edited string",
+        "createdAt": "2024-02-24T21:44:11.925Z",
+        "updatedAt": "2024-02-24T22:14:56.036Z",
+        "__v": 0
+    }
+}
+
+### delete single blog
+DELETE {{api}}/blog/65da632b63cd0110206b8fb6
+Content-Type: application/json
+
+
+### upload blog image
+POST {{api}}/blog/image
+property: image
+
+
+### result
+
+{
+    "image": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708813413/blog_images/tmp-2-1708813412188_zlmzpx.jpg",
+    "publicId": "blog_images/tmp-2-1708813412188_zlmzpx"
+}
+
+
+
+### update blog image
+POST {{api}}/blog/image/blogId
+replace blogId with a valid blog id
+property: image
+
+
+### result
+
+{
+    "message": "blog image updated successfully",
+    "blog": {
+        "image": "https://res.cloudinary.com/dobdvrgyr/image/upload/v1708808399/blog_images/tmp-2-1708808392233_fufamd.jpg",
+        "_id": "65da57cc50baea1a3276875b",
+        "title": "string",
+        "post": "string",
+        "createdAt": "2024-02-24T20:55:40.582Z",
+        "updatedAt": "2024-02-24T20:59:54.711Z",
+        "__v": 0
+    }
+}
+
+
+
+
+
+
+note::: in the public id chan
+
+
+
+
 
