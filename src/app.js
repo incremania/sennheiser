@@ -26,7 +26,9 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 // middlewares
-app.use('/api-docs', express.static(path.join(__dirname, '..', 'api.rest')))
+app.get('/api-docs', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'api.rest'));
+  });
 app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
